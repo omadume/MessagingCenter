@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
   root to: 'passengers#new_import'
-  resources :packages
-  resources :passengers do
-    collection { post :import }
+  get "passengers/new_email", to: "passengers#new_email"
+  resources :passengers, :only => [:index, :show] do
+    collection do
+      post :import
+      post :email
+    end
   end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

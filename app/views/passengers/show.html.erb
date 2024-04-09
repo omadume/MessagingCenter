@@ -1,10 +1,37 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @passenger %>
+<table>
+  <thead>
+    <th>Passenger ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Gender</th>
+    <th>Date of Birth</th>
+    <th>Age</th>
+    <th>Package</th>
+    <th>Status</th>
+  </thead>
 
-<div>
-  <%= link_to "Edit this passenger", edit_passenger_path(@passenger) %> |
-  <%= link_to "Back to passengers", passengers_path %>
+  <tbody>
+    <tr>
+      <td><%=@passenger.passenger_id %></td>
+      <td><%=@passenger.name%></td>
+      <td><%=@passenger.email%></td>
+      <td><%=@passenger.gender%></td>
+      <td><%=@passenger.date_of_birth%></td>
+      <td><%= Date.today.year - @passenger.date_of_birth.year %></td>
+      <td><%=@passenger.package.name%></td>
+      <td><%=@passenger.status%></td>
+    </tr>
+  </tbody>
+</table>
 
-  <%= button_to "Destroy this passenger", @passenger, method: :delete %>
-</div>
+<h4>Messages History</h4>
+
+<% @passenger.messages.each do |message| %>
+  <p><%= message %></p>
+<% end %>
+
+<br>
+
+<%= link_to "Back to passengers list", passengers_path %></p>

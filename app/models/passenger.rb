@@ -2,7 +2,7 @@ require 'csv'
 
 class Passenger < ApplicationRecord
     belongs_to :package, optional: true
-    validates_presence_of :name, :email, :gender, :date_of_birth, :status, :passenger_id
+    validates_presence_of :name, :email, :gender, :date_of_birth, :status, :passenger_id # Assumption that a Passenger may not have a Package upon account creation
     
     def self.importCsv(file)
         begin

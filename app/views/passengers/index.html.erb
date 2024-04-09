@@ -1,14 +1,34 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Passengers</h1>
+<h1>Passengers List</h1>
 
-<div id="passengers">
-  <% @passengers.each do |passenger| %>
-    <%= render passenger %>
-    <p>
-      <%= link_to "Show this passenger", passenger %>
-    </p>
-  <% end %>
-</div>
+<%= button_to "Send email to selection", passengers_new_email_path %>
 
-<%= link_to "New passenger", new_passenger_path %>
+<br><br>
+
+<table>
+  <thead>
+    <th>Passenger ID</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Package</th>
+    <th>Status</th>
+  </thead>
+
+  <tbody>
+    <% @passengers.each do |passenger| %>
+      <tr>
+        <td><%= passenger.passenger_id %></td>
+        <td><%= passenger.name %></td>
+        <td><%= Date.today.year - passenger.date_of_birth.year %></td>
+        <td><%= passenger.package.name %></td>
+        <td><%= passenger.status %></td>
+        <td><%= link_to "View details", passenger_path(passenger) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to "Back to Import CSV page", root_path %>
