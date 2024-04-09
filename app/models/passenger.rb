@@ -2,16 +2,21 @@ require 'csv'
 
 class Passenger < ApplicationRecord
     belongs_to :package, optional: true
-    validates_presence_of :name, :email, :gender, :date_of_birth, :status # Assumption that all of this data was mandatory for a user account to have even been 'created' and  exist in the spreadsheet
+    validates_presence_of :name, :email, :gender, :date_of_birth, :status, :passenger_id
     
     def self.importCsv(file)
         begin
             CSV.foreach(file.path, headers: true){ |row|
-                passenger_attributes = row.to_hash # Convert CSV row data to hash using column headers
+                # Convert CSV row data to hash using column headers, and transform to match model naming conventions
+                passenger_attributes = row.to_hash.transform_keys{ |key| key.downcase.gsub(' ', '_') }
 
                 # Remove Package column data and use to create Package object
-                package_name = passenger_attributes.delete("Package")
+                package_name = passenger_attributes.delete("package")
                 package = Package.find_or_create_by(name: package_name) if package_name.present?
+
+                # Extract and map certain csv column data separately to avoid name mismatch with model
+                full_name = passenger_attributes.delete("full_name")
+                passenger_attributes["name"] = full_name if full_name.present?
 
                 # Create or update Passenger object, with a Package
                 passenger = Passenger.find_or_initialize_by(email: passenger_attributes["Email"])
