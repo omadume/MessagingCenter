@@ -6,6 +6,16 @@ class PassengersController < ApplicationController
     @passengers = Passenger.all
   end
 
+  # GET /passengers/new_import
+  def new_import
+  end
+
+  # Handle the import of a CSV containing Passenger data
+  def import
+    Passenger.importCsv(params[:file])
+    redirect_to passengers_url, notice: "Passenger data imported successfully"
+  end
+
   # GET /passengers/1 or /passengers/1.json
   def show
   end

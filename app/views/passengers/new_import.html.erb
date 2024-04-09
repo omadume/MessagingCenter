@@ -1,0 +1,7 @@
+<h3> Import Passenger Data </h3>
+<%= form_tag import_passengers_path, multipart: true do %>
+    <%= file_field_tag :file, required: true %>
+    <%= submit_tag "Import CSV" %>
+<% end %>
+
+<div>
