@@ -3,7 +3,20 @@ class PassengersController < ApplicationController
 
   # GET /passengers or /passengers.json
   def index
+    # Set up dropdown filter options
+    @package_names = Package.select(:name).order(:name).distinct.pluck(:name)
+    @statuses = Passenger.select(:status).distinct.pluck(:status)
+
     @passengers = Passenger.all
+
+    # Apply filtering if needed
+    @passengers = @passengers.joins(:package).where(package: { name: params[:package_name] }) if params[:package_name].present?
+    @passengers = @passengers.where(status: params[:status]) if params[:status].present?
+    if params[:age_group].present?
+      @passengers = @passengers.select do |passenger|
+        params[:age_group] == 'adult' ? passenger.age >= 18 : passenger.age < 18
+      end
+    end
   end
 
   # GET /passengers/new_import
@@ -12,8 +25,8 @@ class PassengersController < ApplicationController
 
   # Handle the import of a CSV containing Passenger data
   def import
-    Passenger.importCsv(params[:file])
-    redirect_to passengers_url, notice: "Passenger data imported successfully"
+    flash[:notice] = Passenger.importCsv(params[:file])
+    redirect_to passengers_url
   end
 
   # GET /passengers/new_email

@@ -1,6 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<p style="color: green"><%= flash[:notice] %></p>
 
 <h1>Passengers List</h1>
+
+<!-- Filter for passengers list data -->
+<%= form_tag passengers_path, method: :get, class: "filter-form" do %>
+  <%= label_tag :package_name, 'Package name:' %>
+  <%= select_tag :package_name, options_for_select(@package_names, params[:package_name]), include_blank: true %>
+
+  <%= label_tag :status, 'Status:' %>
+  <%= select_tag :status, options_for_select(@statuses, params[:status]), include_blank: true %>
+
+  <%= label_tag :age_group, 'Age:' %>
+  <%= select_tag :age_group, options_for_select(['minor', 'adult'], params[:age_group]), include_blank: true %>
+
+  <%= submit_tag "Filter" %>
+<% end %>
 
 <%= button_to "Send email to selection", passengers_new_email_path %>
 
@@ -20,7 +34,7 @@
       <tr>
         <td><%= passenger.passenger_id %></td>
         <td><%= passenger.name %></td>
-        <td><%= Date.today.year - passenger.date_of_birth.year %></td>
+        <td><%= passenger.age %></td>
         <td><%= passenger.package.name %></td>
         <td><%= passenger.status %></td>
         <td><%= link_to "View details", passenger_path(passenger) %></td>

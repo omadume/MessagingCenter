@@ -23,9 +23,15 @@ class Passenger < ApplicationRecord
                 passenger.assign_attributes(passenger_attributes)
                 passenger.package = package if package.present?
                 passenger.save!
+
+                return "Passenger data imported successfully"
             }
         rescue ActiveRecord::RecordInvalid => e
-            puts "Failed to import CSV: #{ e.message }" # Make this a UI message later
+            return "Failed to import CSV: #{ e.message }"
         end
+    end
+
+    def age
+        Date.today.year - date_of_birth.year
     end
 end
