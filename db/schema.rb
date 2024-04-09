@@ -10,16 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_09_105856) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_09_133125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "packages", force: :cascade do |t|
     t.string "name"
-    t.integer "passenger_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["passenger_id"], name: "index_packages_on_passenger_id"
   end
 
   create_table "passengers", force: :cascade do |t|
@@ -31,7 +29,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_09_105856) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "messages", default: [], array: true
+    t.bigint "package_id"
+    t.index ["package_id"], name: "index_passengers_on_package_id"
   end
 
-  add_foreign_key "packages", "passengers"
+  add_foreign_key "passengers", "packages"
 end

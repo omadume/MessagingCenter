@@ -1,3 +1,3 @@
 class Package < ApplicationRecord
-  belongs_to :passenger
+  has_many :users
 end
