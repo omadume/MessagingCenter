@@ -12,20 +12,20 @@ class Passenger < ApplicationRecord
 
                 # Remove Package column data and use to create Package object
                 package_name = passenger_attributes.delete("package")
-                package = Package.find_or_create_by(name: package_name) if package_name.present?
+                package = Package.find_or_create_by!(name: package_name) if package_name.present?
 
                 # Extract and map certain csv column data separately to avoid name mismatch with model
                 full_name = passenger_attributes.delete("full_name")
                 passenger_attributes["name"] = full_name if full_name.present?
 
                 # Create or update Passenger object, with a Package
-                passenger = Passenger.find_or_initialize_by(email: passenger_attributes["Email"])
+                passenger = Passenger.find_or_initialize_by(email: passenger_attributes["email"])
                 passenger.assign_attributes(passenger_attributes)
                 passenger.package = package if package.present?
                 passenger.save!
-
-                return "Passenger data imported successfully"
             }
+            return "Passenger data imported successfully"
+
         rescue ActiveRecord::RecordInvalid => e
             return "Failed to import CSV: #{ e.message }"
         end
