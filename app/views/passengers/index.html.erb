@@ -45,7 +45,7 @@
         <td><%= passenger.passenger_id %></td>
         <td><%= passenger.name %></td>
         <td><%= passenger.age %></td>
-        <td><%= passenger.package.name %></td>
+        <td><%= passenger.package.name if passenger.package.present? %></td>
         <td><%= passenger.status %></td>
         <td><%= link_to "View details", passenger_path(passenger) %></td>
       </tr>

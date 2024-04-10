@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root to: 'passengers#new_import'
-  get "passengers/new_email", to: "passengers#new_email"
   resources :passengers, :only => [:index, :show] do
     collection do
       post :import

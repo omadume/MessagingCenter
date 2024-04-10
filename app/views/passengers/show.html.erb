@@ -20,7 +20,7 @@
       <td><%=@passenger.gender%></td>
       <td><%=@passenger.date_of_birth%></td>
       <td><%= Date.today.year - @passenger.date_of_birth.year %></td>
-      <td><%=@passenger.package.name%></td>
+      <td><%=@passenger.package.name if @passenger.package.present? %></td>
       <td><%=@passenger.status%></td>
     </tr>
   </tbody>

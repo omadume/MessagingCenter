@@ -2,7 +2,7 @@ class PassengersController < ApplicationController
   before_action :set_passenger, only: %i[ show ]
   before_action :set_filter_options, only: [:index, :email]
 
-  # GET /passengers or /passengers.json
+  # GET /passengers
   def index
     @passengers = filter_passengers
   end
@@ -21,10 +21,6 @@ class PassengersController < ApplicationController
     end
 
     redirect_to passengers_path
-  end
-
-  # GET /passengers/new_email
-  def new_email
   end
 
   # POST (collection) /passengers/email
@@ -57,7 +53,7 @@ class PassengersController < ApplicationController
     end
   end
 
-  # GET /passengers/1 or /passengers/1.json
+  # GET /passengers/1
   def show
   end
 
