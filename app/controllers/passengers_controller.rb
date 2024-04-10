@@ -47,23 +47,24 @@ class PassengersController < ApplicationController
     begin
       @passengers = filter_passengers
 
-      @passengers.find_each{ |passenger|
-        # PassengerMailer.with(passenger: passenger).welcome_email.deliver_later - Commented out as we are not required to send actual emails for this task
+      if @passengers.present?
+        @passengers.each{ |passenger|
+          # PassengerMailer.with(passenger: passenger).welcome_email.deliver_later - Commented out as we are not required to send actual emails for this task
 
-        # Rendering plain text email content to a string to be stored in passenger.messages array
-          message_content = render_to_string(
-          template: "passenger_mailer/passenger_email",
-          layout: false,
-          formats: [:text],
-          locals: { passenger: passenger }
-        )
-        
-        passenger.messages << message_content
-        passenger.save!
-      }
-      flash[:notice] = "Messages have been sent to the filtered passengers"
-      redirect_to passengers_path
-
+          # Rendering plain text email content to a string to be stored in passenger.messages array
+            message_content = render_to_string(
+            template: "passenger_mailer/passenger_email",
+            layout: false,
+            formats: [:text],
+            locals: { passenger: passenger }
+          )
+          
+          passenger.messages << message_content
+          passenger.save!
+        }
+        flash[:notice] = "Messages have been sent to the filtered passengers"
+        redirect_to passengers_path
+      end
     rescue ActiveRecord::RecordInvalid => e
       logger.error "Failed to save passenger messages: #{ e.message }"
       flash[:alert] = "Failed to save passenger messages"
@@ -92,9 +93,13 @@ class PassengersController < ApplicationController
   
       if params[:package_name].present?
         passengers_selection = passengers_selection.joins(:package).where(packages: { name: params[:package_name] })
-      elsif params[:status].present?
+      end 
+
+      if params[:status].present?
         passengers_selection = passengers_selection.where(status: params[:status])
-      elsif params[:age_group].present?
+      end
+
+      if params[:age_group].present?
         passengers_selection = passengers_selection.select{ |passenger|
           params[:age_group] == 'adult' ? passenger.age >= 18 : passenger.age < 18
         }
