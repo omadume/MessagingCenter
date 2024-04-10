@@ -14,6 +14,8 @@ class PassengersController < ApplicationController
   # POST (collection) /passengers/import
   # Handle the import of a CSV containing Passenger data
   def import
+    return unless params[:file].present?
+
     if Passenger.importCsv(params[:file])
       flash[:notice] = "Passenger data imported successfully"
     else
