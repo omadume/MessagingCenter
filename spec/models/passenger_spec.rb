@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Passenger, type: :model do
-
     let(:passenger) { Passenger.new(name: "Jenny", email: "jenny@email.com", gender: "x", date_of_birth: "1997-04-10", status: "created", passenger_id: "001") }
     let(:package) { Package.new(name: "Package 1")}
 

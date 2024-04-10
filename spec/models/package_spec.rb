@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Package, type: :model do
-    
     let(:package) { Package.new(name: "Package 1")}
 
     it "is valid with all required attributes" do

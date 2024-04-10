@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature "PassengersImport", type: :feature do
-
     let(:csvFile) { Rails.root.join('spec/fixtures/passengers.csv') }
-    let!(:passenger) { Passenger.create!(name: "Jeff Rustic", email: "jeffrustic@gmail.com", gender: "x", date_of_birth: "1997-04-10", status: "created", passenger_id: "001") }
+    let(:passenger) { Passenger.create!(name: "Jeff Rustic", email: "jeffrustic@gmail.com", gender: "x", date_of_birth: "1997-04-10", status: "created", passenger_id: "001") }
 
     describe "User imports a CSV file" do
         it "imports successfully with a valid CSV file" do
@@ -31,6 +30,7 @@ RSpec.feature "PassengersImport", type: :feature do
         end
 
         it "does not import duplicates - identified by passenger email" do
+            passenger.save! # Persisting to database as needed for this test case
             initial_passenger_count = Passenger.count
             initial_passengers = Passenger.all
             visit root_path
