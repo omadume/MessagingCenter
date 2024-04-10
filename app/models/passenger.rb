@@ -2,6 +2,7 @@ require 'csv'
 
 class Passenger < ApplicationRecord
     belongs_to :package, optional: true
+    before_validation :downcase_email # Ensure any emails already existing in the DB are lowercase for case-insensitive matching
     validates_presence_of :name, :email, :gender, :date_of_birth, :status, :passenger_id # Assumption that a Passenger may not have a Package upon account creation
     
     def self.importCsv(file)
@@ -17,6 +18,9 @@ class Passenger < ApplicationRecord
                 # Extract and map certain csv column data separately to avoid name mismatch with model
                 full_name = passenger_attributes.delete("full_name")
                 passenger_attributes["name"] = full_name if full_name.present?
+
+                # Tranform email to lowercase for case-insensitive matching
+                passenger_attributes["email"] = passenger_attributes["email"].downcase if passenger_attributes["email"].present?
 
                 # Create or update Passenger object, with a Package
                 passenger = Passenger.find_or_initialize_by(email: passenger_attributes["email"])
@@ -35,4 +39,9 @@ class Passenger < ApplicationRecord
     def age
         Date.today.year - date_of_birth.year
     end
+
+    private
+        def downcase_email
+            self.email = email.downcase if email.present?
+        end
 end
