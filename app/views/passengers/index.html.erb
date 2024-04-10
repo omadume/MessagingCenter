@@ -1,4 +1,5 @@
 <p style="color: green"><%= flash[:notice] %></p>
+<p style="color: red"><%= flash[:alert] %></p>
 
 <h1>Passengers List</h1>
 
@@ -18,7 +19,14 @@
 
 <br>
 
-<%= button_to "Send email to selection", passengers_new_email_path %>
+<!-- Filter for sending passenger emails. This will send to all passengers if no filter options are set -->
+<%= form_tag email_passengers_path, method: :post, class: "send-email-form" do %>
+  <%= hidden_field_tag :package_name, params[:package_name] %>
+  <%= hidden_field_tag :status, params[:status] %>
+  <%= hidden_field_tag :age_group, params[:age_group] %>
+
+  <%= submit_tag "Send email/message to selection" %>
+<% end %>
 
 <br><br>
 

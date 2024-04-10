@@ -24,10 +24,11 @@ class Passenger < ApplicationRecord
                 passenger.package = package if package.present?
                 passenger.save!
             }
-            return "Passenger data imported successfully"
+            return true
 
         rescue ActiveRecord::RecordInvalid => e
-            return "Failed to import CSV: #{ e.message }"
+            logger.error "Failed to import CSV: #{ e.message }"
+            return false
         end
     end
 
