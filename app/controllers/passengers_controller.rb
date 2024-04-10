@@ -4,20 +4,6 @@ class PassengersController < ApplicationController
 
   # GET /passengers or /passengers.json
   def index
-    # # Set up dropdown filter options
-    # @package_names = Package.select(:name).order(:name).distinct.pluck(:name)
-    # @statuses = Passenger.select(:status).distinct.pluck(:status)
-
-    # @passengers = Passenger.all
-
-    # # Apply filtering if needed
-    # @passengers = @passengers.joins(:package).where(package: { name: params[:package_name] }) if params[:package_name].present?
-    # @passengers = @passengers.where(status: params[:status]) if params[:status].present?
-    # if params[:age_group].present?
-    #   @passengers = @passengers.select do |passenger|
-    #     params[:age_group] == 'adult' ? passenger.age >= 18 : passenger.age < 18
-    #   end
-    # end
     @passengers = filter_passengers
   end
 
@@ -49,7 +35,7 @@ class PassengersController < ApplicationController
 
       if @passengers.present?
         @passengers.each{ |passenger|
-          # PassengerMailer.with(passenger: passenger).welcome_email.deliver_later - Commented out as we are not required to send actual emails for this task
+          # PassengerMailer.with(passenger: passenger).email.deliver_later - Commented out as we are not required to send actual emails for this task
 
           # Rendering plain text email content to a string to be stored in passenger.messages array
             message_content = render_to_string(
