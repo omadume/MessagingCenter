@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Passenger, type: :request do
 
-    let(:passenger) { Passenger.create!(name: "Jenny", email: "jenny@email.com", gender: "x", date_of_birth: "1997-04-10", status: "created", passenger_id: "001") }
+    let!(:passenger) { Passenger.create!(name: "Jenny", email: "jenny@email.com", gender: "x", date_of_birth: "1997-04-10", status: "created", passenger_id: "001") }
 
     describe "GET /passengers/index" do
         it "returns HTTP success" do
