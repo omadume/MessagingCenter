@@ -30,6 +30,7 @@ class PassengersController < ApplicationController
   def email
     begin
       @passengers = filter_passengers
+      return unless @passengers.present?
 
       @passengers.each{ |passenger|
         # PassengerMailer.with(passenger: passenger).email.deliver_later - Commented out as we are not required to send actual emails for this task
