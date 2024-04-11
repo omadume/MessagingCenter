@@ -1,0 +1,19 @@
+Passenger ID,Full Name,Gender,Email,Package,Date of Birth,Status
+370,Jeff Rustic,male,jeffrustic@gmail.com,Basic Package,2006-02-14,fully_paid
+371,Rudie Rose Shemwell,female,rudie@outlook.com,Senator Package,2005-07-03,partially_paid
+372,Gina Buddles,female,gina@buddles.com,Presidential Package,1999-04-22,partially_paid
+373,Andre Game,male,andre@gmail.com,Presidential Package,2006-10-11,finished_wizard
+374,Crystal Heal,female,crystal.heal@gmail.com,Basic Package,2006-08-30,cancelled
+375,Linda Sanders,female,linda.sanders@yahoo.com,Senator Package,2006-03-22,finished_wizard
+376,Christina Mejia,female,christina.mejia@gmail.com,Presidential Package,2005-04-30,fully_paid
+377,Christina K. Mejia,female,christina.mejia@gmail.com,Presidential Package,2005-04-30,fully_paid
+379,William Lade,male,will.i.am@gmail.com,Senator Package,1986-04-21,partially_paid
+380,Sherry Kelly,female,sherry.kelly@gmail.com,Basic Package,1986-02-04,finished_wizard
+382,Patricia McDonald,female,patricia.mcdonald@gmail.com,Senator Package,2005-10-09,finished_wizard
+383,Russel Gates,male,russel.gates@msn.com,Senator Package,2006-06-02,partially_paid
+384,Shakia Johnston,female,shakia.johnston@gmail.com,Presidential Package,2005-01-29,created
+385,John Hernandez,male,john.hernandez@gmail.com,Basic Package,2006-01-12,cancelled
+387,Eric Alexander Fenner,male,eric.a.fenner@gmail.com,Senator Package,2006-05-14,partially_paid
+388,Sal Martinez,x,sal.martinez@gmail.com,Basic Package,2005-07-04,partially_paid
+389,Kayla Hunter,female,kayla.hunter@gmail.com,Presidential Package,1980-03-30,created
+391,Esmeralda Rife,female,esmeralda.rife@gmail.com,Basic Package,2005-06-07,created

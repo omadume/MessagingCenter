@@ -14,15 +14,15 @@ class PassengersController < ApplicationController
   # POST (collection) /passengers/import
   # Handle the import of a CSV containing Passenger data
   def import
-    return unless params[:file].present?
+    file = params[:file]
 
-    if Passenger.importCsv(params[:file])
-      flash[:notice] = "Passenger data imported successfully"
+    if (file.blank? || file&.content_type != 'text/csv') # Backup validation in case client-side validations fail or are disabled
+      flash[:alert] = "Please make sure a CSV file has been selected"
+      redirect_to root_path
     else
-      flash[:alert] = "Failed to import CSV"
+      Passenger.importCsv(file) ? flash[:notice] = "Passenger data imported successfully" : flash[:alert] = "Failed to import CSV"
+      redirect_to passengers_path
     end
-
-    redirect_to passengers_path
   end
 
   # POST (collection) /passengers/email
@@ -31,24 +31,22 @@ class PassengersController < ApplicationController
     begin
       @passengers = filter_passengers
 
-      if @passengers.present?
-        @passengers.each{ |passenger|
-          # PassengerMailer.with(passenger: passenger).email.deliver_later - Commented out as we are not required to send actual emails for this task
+      @passengers.each{ |passenger|
+        # PassengerMailer.with(passenger: passenger).email.deliver_later - Commented out as we are not required to send actual emails for this task
 
-          # Rendering plain text email content to a string to be stored in passenger.messages array
-            message_content = render_to_string(
-            template: "passenger_mailer/passenger_email",
-            layout: false,
-            formats: [:text],
-            locals: { passenger: passenger }
-          )
-          
-          passenger.messages << message_content
-          passenger.save!
-        }
-        flash[:notice] = "Messages have been sent to the filtered passengers"
-        redirect_to passengers_path
-      end
+        # Rendering plain text email content to a string to be stored in passenger.messages array
+          message_content = render_to_string(
+          template: "passenger_mailer/passenger_email",
+          layout: false,
+          formats: [:text],
+          locals: { passenger: passenger }
+        )
+        
+        passenger.messages << message_content
+        passenger.save!
+      }
+      flash[:notice] = "Messages have been sent to the filtered passengers"
+      redirect_to passengers_path
     rescue ActiveRecord::RecordInvalid => e
       logger.error "Failed to save passenger messages: #{ e.message }"
       flash[:alert] = "Failed to save passenger messages"

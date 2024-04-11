@@ -29,7 +29,6 @@ class Passenger < ApplicationRecord
                 passenger.save!
             }
             return true
-
         rescue ActiveRecord::RecordInvalid => e
             logger.error "Failed to import CSV: #{ e.message }"
             return false

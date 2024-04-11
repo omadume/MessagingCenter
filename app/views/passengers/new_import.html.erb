@@ -1,6 +1,8 @@
 <h3> Import Passenger Data </h3>
 
 <%= form_tag import_passengers_path, multipart: true do %>
-    <%= file_field_tag :file, required: true %>
+    <%= file_field_tag :file, required: true, accept: 'text/csv' %>
     <%= submit_tag "Import CSV" %>
 <% end %>
+
+<p style="color: red"><%= flash[:alert] %></p>
