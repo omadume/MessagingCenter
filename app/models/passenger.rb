@@ -35,8 +35,12 @@ class Passenger < ApplicationRecord
     end
   end
 
+  # Calculate age, subtracting 1 from the calculated age if the current date is before the birthday in the current year.
   def age
-    Date.today.year - date_of_birth.year
+    current_date = Date.today
+    age = current_date.year - date_of_birth.year
+    age -= 1 if current_date.month < date_of_birth.month || (current_date.month == date_of_birth.month && current_date.day < date_of_birth.day)
+    age
   end
 
   private
